@@ -15,6 +15,6 @@
 from pathlib import Path
 
 p = Path('../Yet')
-for i in range(100, 111):
+for i in range(100, 104):
     new_p = p / 'team-{}.mp4'.format(i)
     new_p.write_text('123')
