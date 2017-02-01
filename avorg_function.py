@@ -11,8 +11,8 @@ path = {'done': Path('./Done/'),
 xpath = {'detail':  './/*[@id="list"]/li/div/p[2]/a',
          'name':    './/*[@id="performer"]/a',
          'date':    './/*[@id="mu"]/div/table/tr/td[1]/table/tr[3]/td[2]',
-         'image':   './/*[@id="{}"]',
-         'thumb':   './/*[@id="package-src-{}"]'}
+         'image':   './/*[@id="sample-video"]/a',
+         'thumb':   './/*[@id="sample-video"]/a/img'}
 
 
 def get_data(file_path=Path()):
@@ -29,8 +29,8 @@ def get_data(file_path=Path()):
     tree = etree.HTML(response.content)
     branch['name'] = tree.find(xpath['name'])
     branch['date'] = tree.find(xpath['date'])
-    branch['image'] = tree.find(xpath['image'].format(search_number))
-    branch['thumb'] = tree.find(xpath['thumb'].format(search_number))
+    branch['image'] = tree.find(xpath['image'])
+    branch['thumb'] = tree.find(xpath['thumb'])
 
     image_url = branch['image'].get('href')
     image_name = av['number'] + '.' + image_url.split('.')[-1]
@@ -69,6 +69,7 @@ for p in l:
     #     save_data(d)
     # except:
     #     print('no data:' + p)
+    print(p)
     d = get_data(p)
     save_data(d)
 
