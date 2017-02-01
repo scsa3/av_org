@@ -5,10 +5,11 @@ from lxml import etree
 from pathlib import Path
 
 url = {'host': 'http://www.dmm.co.jp',
-       'search': 'http://www.dmm.co.jp/digital/videoa/-/detail/=/cid='}
+       'search': 'http://www.dmm.co.jp/search/=/n1=FgRCTw9VBA4GAVhfWkIHWw__/sort=ranking/searchstr='}
 path = {'done': Path('./Done/'),
         'yet': Path('./Yet/')}
-xpath = {'name': './/*[@id="performer"]/a',
+xpath = {'detail': '//*[@id="list"]/li/div/p[2]/a',
+         'name': './/*[@id="performer"]/a',
          'date': './/*[@id="mu"]/div/table/tr/td[1]/table/tr[3]/td[2]',
          'image': './/*[@id="{}"]',
          'thumb': './/*[@id="package-src-{}"]'}
@@ -20,7 +21,7 @@ def get_data(file_path=Path()):
     page_path = file_path.parent / Path(av['number'] + '.html')
     search_number = av['number'].replace('-', '00')
     response = requests.get(url['search'] + search_number)
-
+    response = etree.HTML(response.content).find(xpath['detail'].get('href'))
     branch = dict()
     tree = etree.HTML(response.content)
     branch['name'] = tree.find(xpath['name'])
